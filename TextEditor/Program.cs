@@ -60,11 +60,12 @@ namespace TextEditor
                 using var file = new StreamWriter(path!);
                 file.Write(text);
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 Console.WriteLine($"Erro: diretório {path} não existe!");
                 Console.ReadLine();
                 Salvar(text);
+                e.Data.Clear();
                 throw;
             }
 
