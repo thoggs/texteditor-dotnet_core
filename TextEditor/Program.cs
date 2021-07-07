@@ -55,11 +55,19 @@ namespace TextEditor
             Console.WriteLine("Qual caminho para salvar o arquivo?");
             var path = Console.ReadLine();
 
-            using (var file = new StreamWriter(path!))
+            try
             {
+                using var file = new StreamWriter(path!);
                 file.Write(text);
             }
-            
+            catch (Exception)
+            {
+                Console.WriteLine($"Erro: diretório {path} não existe!");
+                Console.ReadLine();
+                Salvar(text);
+                throw;
+            }
+
             Console.Clear();
             Console.WriteLine("");
             Console.WriteLine($"Arquivo {path} salvo com sucesso!");
