@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 namespace TextEditor
 {
@@ -34,7 +35,45 @@ namespace TextEditor
 
         private static void Editar()
         {
+            Console.Clear();
+            Console.WriteLine("Digite seu texto abaixo (ESC para sair)");
+            Console.WriteLine("---------------------------");
+            string text = "";
+
+            do
+            {
+                text += Console.ReadLine();
+                text += Environment.NewLine;
+            } while (Console.ReadKey().Key != ConsoleKey.End);
             
+            Salvar(text);
+        }
+
+        private static void Salvar(string text)
+        {
+            Console.Clear();
+            Console.WriteLine("Qual caminho para salvar o arquivo?");
+            var path = Console.ReadLine();
+
+            try
+            {
+                using var file = new StreamWriter(path!);
+                file.Write(text);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Erro: diretório {path} não existe!");
+                Console.ReadLine();
+                Salvar(text);
+                e.Data.Clear();
+                throw;
+            }
+
+            Console.Clear();
+            Console.WriteLine("");
+            Console.WriteLine($"Arquivo {path} salvo com sucesso!");
+            Console.ReadLine();
+            Menu();
         }
     }
 }
