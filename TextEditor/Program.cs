@@ -44,7 +44,7 @@ namespace TextEditor
             {
                 text += Console.ReadLine();
                 text += Environment.NewLine;
-            } while (Console.ReadKey().Key != ConsoleKey.Escape);
+            } while (Console.ReadKey().Key != ConsoleKey.End);
             
             Salvar(text);
         }
@@ -54,10 +54,14 @@ namespace TextEditor
             Console.Clear();
             Console.WriteLine("Qual caminho para salvar o arquivo?");
             var path = Console.ReadLine();
+
+            using (var file = new StreamWriter(path!))
+            {
+                file.Write(text);
+            }
             
-            using var file = new StreamWriter(path ?? string.Empty);
-            file.Write(text);
-            
+            Console.Clear();
+            Console.WriteLine("");
             Console.WriteLine($"Arquivo {path} salvo com sucesso!");
             Console.ReadLine();
             Menu();
