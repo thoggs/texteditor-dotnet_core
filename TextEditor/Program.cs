@@ -30,7 +30,28 @@ namespace TextEditor
 
         private static void Abrir()
         {
+            Console.Clear();
+            Console.WriteLine("Qual caminho do arquivo?");
+            string path = Console.ReadLine();
             
+            try
+            {
+                using var file = new StreamReader(path!);
+                string text = file.ReadToEnd();
+                Console.WriteLine("");
+                Console.WriteLine(text);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Não foi possível abrir o arquivo no diretório: {path}");
+                Console.ReadLine();
+                e.Data.Clear();
+                Abrir();
+                throw;
+            }
+            
+            Console.ReadLine();
+            Menu();
         }
 
         private static void Editar()
